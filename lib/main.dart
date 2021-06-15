@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:ios_style/utils/toast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+// 页面
 import 'package:ios_style/pages/home.dart';
+import 'package:ios_style/pages/guide.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,6 +31,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(),
+      routes: <String, WidgetBuilder>{
+        'guide': (BuildContext context) => new Guide()
+      },
     );
   }
 }
@@ -41,6 +47,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   DateTime lastPopTime = DateTime.now().subtract(Duration(seconds: 2));
+
+  @override
+  void initState() {
+    super.initState();
+    getPrefs(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  // 返回确认退出 App
   Future<bool> quit() async {
     if (DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
       lastPopTime = DateTime.now();
@@ -91,5 +104,23 @@ class _MyHomePageState extends State<MyHomePage> {
       await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
     }
     return false;
+  }
+
+  Future getPrefs(BuildContext context) async {
+    // 获取本地配置信息
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? readedGuide = prefs.getBool('readed_guide'); // 获取是否 已读导航页
+    bool? readedStartAdds = prefs.getBool('readed_start_adds'); // 启动页广告是否有更新
+    print('是否已读导航页1: $readedGuide');
+    print('启动页广告是否有更新1: $readedStartAdds');
+    await prefs.setBool('readed_guide', true);
+    await prefs.setBool('readed_start_adds', true);
+    readedGuide = prefs.getBool('readed_guide');
+    readedStartAdds = prefs.getBool('readed_start_adds');
+    print('是否已读导航页2: $readedGuide');
+    print('启动页广告是否有更新2: $readedStartAdds');
+    if (readedGuide ?? false) {
+      Navigator.of(context).pushNamed('guide');
+    }
   }
 }
