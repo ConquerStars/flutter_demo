@@ -10,6 +10,9 @@ import 'package:ios_style/pages/guide.dart';
 
 void main() {
   runApp(MyApp());
+  SystemUiOverlayStyle systemUiOverlayStyle =
+      SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+  SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
 }
 
 class MyApp extends StatelessWidget {

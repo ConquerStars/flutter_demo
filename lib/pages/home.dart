@@ -11,6 +11,9 @@ class HomePage extends StatelessWidget {
           border: Border.all(
               color: Colors.transparent, width: 0.0, style: BorderStyle.none),
         ),
-        child: SafeArea(child: Text('首页内容')));
+        child: SafeArea(
+            child: Scaffold(
+          body: Text('首页内容'),
+        )));
   }
 }

@@ -12,14 +12,17 @@ class Guide extends StatefulWidget {
 class _Guide extends State<Guide> {
   int countDown = 5;
 
+  Timer? golbalTimer;
+
   @override
   void initState() {
     super.initState();
     Timer.periodic(Duration(seconds: 1), (timer) {
+      golbalTimer = timer;
       setState(() {
         print('倒计时：$countDown');
         if (countDown < 1) {
-          timer.cancel();
+          golbalTimer?.cancel();
           Navigator.pop(context);
         } else {
           countDown--;
@@ -28,18 +31,24 @@ class _Guide extends State<Guide> {
     });
   }
 
+  // 跳过
+  void skip() {
+    print(golbalTimer);
+    golbalTimer?.cancel();
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      child: Stack(children: <Widget>[
-        Text('广告位招租'),
-        FloatingActionButton(
+      child: Scaffold(
+        body: Text('广告位招租'),
+        floatingActionButton: FloatingActionButton(
+          onPressed: skip,
+          tooltip: 'Increment',
           child: Text('跳过$countDown'),
-          onPressed: () {
-            Navigator.pop(context);
-          },
         ),
-      ]),
+      ),
       onWillPop: back,
     );
   }
