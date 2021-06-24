@@ -7,11 +7,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 // 页面
 import 'package:ios_style/pages/home.dart';
 import 'package:ios_style/pages/guide.dart';
+import 'package:ios_style/pages/news.dart';
+import 'package:ios_style/pages/mine.dart';
 
 void main() {
   runApp(MyApp());
-  SystemUiOverlayStyle systemUiOverlayStyle =
-      SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+  SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
+    // systemNavigationBarColor: Color(0xFF000000),
+    // systemNavigationBarDividerColor: null,
+    statusBarColor: Colors.transparent,
+    // systemNavigationBarIconBrightness: Brightness.light,
+    // statusBarIconBrightness: Brightness.dark,
+    // statusBarBrightness: Brightness.light,
+  );
   SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
 }
 
@@ -86,9 +94,9 @@ class _MyHomePageState extends State<MyHomePage> {
               if (index == 0) {
                 return HomePage();
               } else if (index == 1) {
-                return Text('2');
+                return News();
               } else {
-                return Text('3');
+                return Mine();
               }
             });
           },
