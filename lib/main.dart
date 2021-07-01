@@ -9,6 +9,7 @@ import 'package:ios_style/pages/home.dart';
 import 'package:ios_style/pages/guide.dart';
 import 'package:ios_style/pages/news.dart';
 import 'package:ios_style/pages/mine.dart';
+import 'package:ios_style/pages/themeSelect.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,27 +24,19 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
 }
 
+var appCtx;
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    appCtx = context;
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData.light(),
+      // darkTheme: ThemeData.dark(), // dark
       home: MyHomePage(),
       routes: <String, WidgetBuilder>{
-        'guide': (BuildContext context) => new Guide()
+        'guide': (BuildContext context) => Guide()
       },
     );
   }
@@ -53,16 +46,16 @@ class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
   DateTime lastPopTime = DateTime.now().subtract(Duration(seconds: 2));
 
   @override
   void initState() {
     super.initState();
-    getPrefs(context);
+    getPrefs(context); // 获取本地配置信息
   }
 
   @override
@@ -96,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
               } else if (index == 1) {
                 return News();
               } else {
-                return Mine();
+                return Mine(appCtx);
               }
             });
           },
@@ -120,17 +113,17 @@ class _MyHomePageState extends State<MyHomePage> {
   Future getPrefs(BuildContext context) async {
     // 获取本地配置信息
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? readedGuide = prefs.getBool('readed_guide'); // 获取是否 已读导航页
-    bool? readedStartAdds = prefs.getBool('readed_start_adds'); // 启动页广告是否有更新
+    bool readedGuide = prefs.getBool('readed_guide') ?? false; // 获取是否 已读导航页
+    bool readedStartAdds = prefs.getBool('readed_start_adds') ?? false; // 启动页广告是否有更新
     print('是否已读导航页1: $readedGuide');
     print('启动页广告是否有更新1: $readedStartAdds');
     await prefs.setBool('readed_guide', true);
     await prefs.setBool('readed_start_adds', true);
-    readedGuide = prefs.getBool('readed_guide');
-    readedStartAdds = prefs.getBool('readed_start_adds');
+    readedGuide = prefs.getBool('readed_guide') ?? false;
+    readedStartAdds = prefs.getBool('readed_start_adds') ?? false;
     print('是否已读导航页2: $readedGuide');
     print('启动页广告是否有更新2: $readedStartAdds');
-    if (readedGuide ?? false) {
+    if (!readedGuide) {
       Navigator.of(context).pushNamed('guide');
     }
   }
