@@ -4,9 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:ios_style/pages/themeSelect.dart';
 
 class Mine extends StatelessWidget {
-  BuildContext parentCtx;
+  var parentCtx;
   Mine(this.parentCtx);
-
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -30,11 +29,13 @@ class Mine extends StatelessWidget {
                   ),
                   ListTile(
                     tileColor: Colors.white12,
-                    leading: Icon(Icons.edit_attributes),
+                    leading: Icon(Icons.drafts),
                     title: Text('主题设置'),
                     trailing: Icon(Icons.keyboard_arrow_right),
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (ctx) => ThemeSelect()));
+                      print(this.parentCtx);
+                      
+                      Navigator.push(this.parentCtx, MaterialPageRoute(builder: (ctx) => ThemeSelect()));
                     },
                   ),
                   ListTile(

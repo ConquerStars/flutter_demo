@@ -9,7 +9,7 @@ import 'package:ios_style/pages/home.dart';
 import 'package:ios_style/pages/guide.dart';
 import 'package:ios_style/pages/news.dart';
 import 'package:ios_style/pages/mine.dart';
-import 'package:ios_style/pages/themeSelect.dart';
+// import 'package:ios_style/pages/themeSelect.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,17 +24,15 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
 }
 
-var appCtx;
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    appCtx = context;
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData.light(),
       // darkTheme: ThemeData.dark(), // dark
-      home: MyHomePage(),
+      home: RootPage(),
       routes: <String, WidgetBuilder>{
         'guide': (BuildContext context) => Guide()
       },
@@ -42,14 +40,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+class RootPage extends StatefulWidget {
+  RootPage({Key? key}) : super(key: key);
 
   @override
-  createState() => MyHomePageState();
+  createState() => RootPageState();
 }
 
-class MyHomePageState extends State<MyHomePage> {
+class RootPageState extends State<RootPage> {
   DateTime lastPopTime = DateTime.now().subtract(Duration(seconds: 2));
 
   @override
@@ -59,7 +57,7 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext ctx) {
     return WillPopScope(
       child: CupertinoPageScaffold(
         child: CupertinoTabScaffold(
@@ -89,7 +87,7 @@ class MyHomePageState extends State<MyHomePage> {
               } else if (index == 1) {
                 return News();
               } else {
-                return Mine(appCtx);
+                return Mine(ctx);
               }
             });
           },
