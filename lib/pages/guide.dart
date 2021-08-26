@@ -23,7 +23,8 @@ class _Guide extends State<Guide> {
         print('倒计时：$countDown');
         if (countDown < 1) {
           golbalTimer?.cancel();
-          Navigator.of(context).pushReplacementNamed('home');
+          // Navigator.of(context).pushReplacementNamed('home');
+          Navigator.pop(context);
         } else {
           countDown--;
         }
@@ -35,7 +36,8 @@ class _Guide extends State<Guide> {
   void skip() {
     // print(golbalTimer);
     golbalTimer?.cancel();
-    Navigator.of(context).pushReplacementNamed('home');
+    // Navigator.of(context).pushReplacementNamed('home');
+    Navigator.pop(context);
   }
 
   final Color bgColor = Colors.grey.shade900;

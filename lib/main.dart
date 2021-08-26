@@ -55,8 +55,8 @@ class RootPageState extends State<RootPage> {
   @override
    void initState() {
     super.initState();
-    getThemeMode().then((value) => themeMode = value);
-    getPrefs(context); // 获取本地配置信息
+    // getThemeMode().then((value) => themeMode = value);
+    getGuide(context); // 获取本地配置信息
   }
 
   @override
@@ -101,6 +101,9 @@ class RootPageState extends State<RootPage> {
 
   // 返回确认退出 App
   Future<bool> quit() async {
+    print('quit click');
+    print(lastPopTime);
+    print(DateTime.now().difference(lastPopTime) > Duration(seconds: 2));
     if (DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
       lastPopTime = DateTime.now();
       Toast.show('再按一次退出', context);
@@ -116,7 +119,7 @@ class RootPageState extends State<RootPage> {
     return prefs.getString('theme_mode') ?? '0';
   }
 
-  getPrefs(BuildContext context) async {
+  getGuide(BuildContext context) async {
     // 获取本地配置信息
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool readedGuide = prefs.getBool('readed_guide') ?? false; // 获取是否 已读导航页
@@ -130,7 +133,7 @@ class RootPageState extends State<RootPage> {
     print('是否已读导航页2: $readedGuide');
     print('启动页广告是否有更新2: $readedStartAdds');
     if (readedGuide) {
-      Navigator.of(context).pushReplacementNamed('guide');
+      Navigator.of(context).pushNamed('guide');
     }
   }
 }
