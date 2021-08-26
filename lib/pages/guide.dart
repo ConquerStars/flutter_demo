@@ -23,7 +23,7 @@ class _Guide extends State<Guide> {
         print('倒计时：$countDown');
         if (countDown < 1) {
           golbalTimer?.cancel();
-          Navigator.pop(context);
+          Navigator.of(context).pushReplacementNamed('home');
         } else {
           countDown--;
         }
@@ -33,21 +33,39 @@ class _Guide extends State<Guide> {
 
   // 跳过
   void skip() {
-    print(golbalTimer);
+    // print(golbalTimer);
     golbalTimer?.cancel();
-    Navigator.pop(context);
+    Navigator.of(context).pushReplacementNamed('home');
   }
 
+  final Color bgColor = Colors.grey.shade900;
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      child: Scaffold(
-        body: Text('广告位招租'),
-        floatingActionButton: FloatingActionButton(
-          onPressed: skip,
-          tooltip: 'Increment',
-          child: Text('跳过$countDown'),
-        ),
+        child: Scaffold(
+          appBar: AppBar(
+            shadowColor: Colors.transparent,
+            backgroundColor: bgColor,
+            toolbarHeight: 0,
+          ),
+          body: InkWell(
+              child: Container(
+                child: Text('喂！不得了了！！隔壁便利店的薯片半价！！'),
+                height: double.infinity,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: bgColor,
+                ),
+              ),
+              onTap: (){
+                print('一起去看看吧');
+              },
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: skip,
+            tooltip: 'Increment',
+            child: Text('跳过$countDown'),
+          ),
       ),
       onWillPop: back,
     );

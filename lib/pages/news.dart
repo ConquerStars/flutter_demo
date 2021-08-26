@@ -14,7 +14,9 @@ class News extends StatelessWidget {
         ),
         child: SafeArea(
             child: Scaffold(
-          body: Text('最新资讯'),
+          body: Text(
+            '123'
+          ),
         )));
   }
 }

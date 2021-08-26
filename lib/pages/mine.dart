@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'package:ios_style/components/ios_nav_bar.dart';
 import 'package:ios_style/pages/themeSelect.dart';
 
 class Mine extends StatelessWidget {
@@ -9,13 +10,7 @@ class Mine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          brightness: Brightness.light,
-          middle: Text('个人中心', style: TextStyle(color: Colors.blueAccent)),
-          backgroundColor: Colors.transparent,
-          border: Border.all(
-              color: Colors.transparent, width: 0.0, style: BorderStyle.none),
-        ),
+        navigationBar: IosNavBar('个人中心'),
         child: SafeArea(
             child: Scaffold(
               body: Column(
@@ -33,8 +28,6 @@ class Mine extends StatelessWidget {
                     title: Text('主题设置'),
                     trailing: Icon(Icons.keyboard_arrow_right),
                     onTap: (){
-                      print(this.parentCtx);
-                      
                       Navigator.push(this.parentCtx, MaterialPageRoute(builder: (ctx) => ThemeSelect()));
                     },
                   ),

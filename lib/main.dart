@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:ios_style/utils/toast.dart';
+import 'package:ios_style/components/toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // 页面
@@ -29,12 +29,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData.light(),
-      // darkTheme: ThemeData.dark(), // dark
+      darkTheme: ThemeData.dark(), // dark
       home: RootPage(),
       routes: <String, WidgetBuilder>{
-        'guide': (BuildContext context) => Guide()
+        'guide': (BuildContext context) => Guide(),
+        'home': (BuildContext context) => HomePage()
       },
     );
   }
@@ -49,10 +49,13 @@ class RootPage extends StatefulWidget {
 
 class RootPageState extends State<RootPage> {
   DateTime lastPopTime = DateTime.now().subtract(Duration(seconds: 2));
+  
+  String themeMode = '0';
 
   @override
-  void initState() {
+   void initState() {
     super.initState();
+    getThemeMode().then((value) => themeMode = value);
     getPrefs(context); // 获取本地配置信息
   }
 
@@ -81,7 +84,6 @@ class RootPageState extends State<RootPage> {
           ),
           tabBuilder: (BuildContext context, int index) {
             return CupertinoTabView(builder: (BuildContext context) {
-              print(index);
               if (index == 0) {
                 return HomePage();
               } else if (index == 1) {
@@ -108,7 +110,13 @@ class RootPageState extends State<RootPage> {
     return false;
   }
 
-  Future getPrefs(BuildContext context) async {
+  getThemeMode() async {
+    // 获取本地配置信息
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('theme_mode') ?? '0';
+  }
+
+  getPrefs(BuildContext context) async {
     // 获取本地配置信息
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool readedGuide = prefs.getBool('readed_guide') ?? false; // 获取是否 已读导航页
@@ -121,8 +129,8 @@ class RootPageState extends State<RootPage> {
     readedStartAdds = prefs.getBool('readed_start_adds') ?? false;
     print('是否已读导航页2: $readedGuide');
     print('启动页广告是否有更新2: $readedStartAdds');
-    if (!readedGuide) {
-      Navigator.of(context).pushNamed('guide');
+    if (readedGuide) {
+      Navigator.of(context).pushReplacementNamed('guide');
     }
   }
 }
