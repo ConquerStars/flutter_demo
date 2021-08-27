@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:ios_style/components/ios_nav_bar.dart';
 import 'package:ios_style/pages/themeSelect.dart';
 
+import 'package:ios_style/utils/custom_router.dart';
+
 class Mine extends StatelessWidget {
   var parentCtx;
   Mine(this.parentCtx);
@@ -28,7 +30,7 @@ class Mine extends StatelessWidget {
                     title: Text('主题设置'),
                     trailing: Icon(Icons.keyboard_arrow_right),
                     onTap: (){
-                      Navigator.push(this.parentCtx, MaterialPageRoute(builder: (ctx) => ThemeSelect()));
+                      Navigator.push(this.parentCtx, CustomRoute(ThemeSelect()));
                     },
                   ),
                   ListTile(

@@ -11,6 +11,8 @@ import 'package:ios_style/pages/news.dart';
 import 'package:ios_style/pages/mine.dart';
 // import 'package:ios_style/pages/themeSelect.dart';
 
+import 'package:ios_style/utils/custom_router.dart';
+
 void main() {
   runApp(MyApp());
   SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
@@ -32,10 +34,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(), // dark
       home: RootPage(),
-      routes: <String, WidgetBuilder>{
-        'guide': (BuildContext context) => Guide(),
-        'home': (BuildContext context) => HomePage()
-      },
+      // routes: <String, WidgetBuilder>{
+      //   'guide': (BuildContext context) => Guide(),
+      //   'home': (BuildContext context) => HomePage()
+      // },
     );
   }
 }
@@ -133,7 +135,7 @@ class RootPageState extends State<RootPage> {
     print('是否已读导航页2: $readedGuide');
     print('启动页广告是否有更新2: $readedStartAdds');
     if (readedGuide) {
-      Navigator.of(context).pushNamed('guide');
+      Navigator.of(context).push(CustomRoute(Guide(), animateType: 'fade'));
     }
   }
 }
